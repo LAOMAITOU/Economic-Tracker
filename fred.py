@@ -1,4 +1,6 @@
 import pandas_datareader as pdr
+import streamlit as st
+import plotly.express as px
 import datetime
 
 if __name__ == '__main__':
@@ -24,5 +26,15 @@ if __name__ == '__main__':
     savings_df = pdr.DataReader(personal_savings_rate_code, data_source, start_date)
     cpi_df = pdr.DataReader(cpi_series, data_source, start_date)
     
-    #  Return data
-    print(treasury_yield_df)
+    def plot_sp500():
+        fig = px.line(snp_data_df, x=snp_data_df.index, y="SP500")
+        fig.update_layout(
+        title="S&P500 Index",
+        xaxis_title="Date",
+        yaxis_title="Price"
+        )
+        return fig
+    
+    
+    st.title("US Economic Dashboard")
+    st.plotly_chart(plot_sp500())
