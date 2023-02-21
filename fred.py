@@ -4,37 +4,30 @@ import plotly.express as px
 import datetime
 
 if __name__ == '__main__':
-    #  Set start date
-    start_date = datetime.date(2018, 1, 1)
+    # Data Source
+    data_source='fred'
+    
+    # Ask user to input a date
+    default_end_date=datetime.today()
+    start_date=st.date_input("Select a start date")
     start_date_str = datetime.datetime.strftime(start_date, "%Y-%m-%d")
-
-    #  Federal Reserve Economic Data Service
-    data_source = 'fred'
-    treasury_yield_code = 'DGS10' #  10-year Treasury Rate
-    unemployment_rate_code = 'UNRATE'
-    gdp_code = 'GDPC1'
-    mortgage_code = 'MORTGAGE30US'
-    snp_code = 'SP500'
-    personal_savings_rate_code = 'PSAVERT'
-    cpi_series = 'CPIAUCSL'
+    end_date=st.date_input("Select a end date",value=default_end_date)
+    end_date_str = datetime.datetime.strftime(end_date, "%Y-%m-%d")
+    metrics=st.text_input("What are you interested in?", value='SP500')
 
     #  Fetch data
-    treasury_yield_df = pdr.DataReader(treasury_yield_code, data_source, start_date)
-    unemployment_rate_df = pdr.DataReader(unemployment_rate_code, data_source, start_date)
-    mortgate_data_df = pdr.DataReader(mortgage_code, data_source, start_date)
-    snp_data_df = pdr.DataReader(snp_code, data_source, start_date)
-    savings_df = pdr.DataReader(personal_savings_rate_code, data_source, start_date)
-    cpi_df = pdr.DataReader(cpi_series, data_source, start_date)
+    df = pdr.DataReader(metrics, data_source, start_date_str,end_date_str)
     
-    def plot_sp500():
-        fig = px.line(snp_data_df, x=snp_data_df.index, y="SP500")
+    def plot():
+        y_index=snp_data_df.columns[0]
+        fig = px.line(df, x=df.index, y=y_index)
         fig.update_layout(
-        title="S&P500 Index",
+        title=y_index,
         xaxis_title="Date",
-        yaxis_title="Price"
+        yaxis_title="Value"
         )
         return fig
     
     
     st.title("US Economic Dashboard")
-    st.plotly_chart(plot_sp500())
+    st.plotly_chart(plot)
