@@ -8,3 +8,5 @@ plotly
 matplotlib
 pandas-datareader
 ipykernel
+scikit-learn
+dash
