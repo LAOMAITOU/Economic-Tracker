@@ -1,36 +1,28 @@
-import pandas_datareader as pdr
-import streamlit as st
-import plotly.express as px
-import datetime
+import pandas as pd
+import pandas_datareader.data as web
 from datetime import date
+import datetime
 
+data_source='fred'
+default_end_date=date.today()
+default_start_date=default_end_date - datetime.timedelta(days=365*10)
+# default_start_date_str=datetime.datetime.strftime(default_start_date,"%Y-%m-%d")
+# default_end_date_str=datetime.datetime.strftime(default_end_date,"%Y-%m-%d")
+
+
+class FredData:
+    def __init__(self, data_source='fred',series_id='SP500',start_date=default_start_date,end_date=default_end_date):
+        self.data_source = data_source
+        self.series_id = series_id
+        self.start_date = start_date
+        self.end_date = end_date
+        self.data=pd.DataFrame()
+    
+    def get_data(self):
+        self.data=web.DataReader(self.series_id,self.data_source,self.start_date,self.end_date)
+        return self.data
+    
 if __name__ == '__main__':
-    # Data Source
-    data_source='fred'
-    
-    # Ask user to input a date
-    default_end_date=date.today()
-    default_start_date=default_end_date - datetime.timedelta(days=365*10)
-    
-    start_date=st.date_input("Select a start date",value=default_start_date)
-    start_date_str = datetime.datetime.strftime(start_date, "%Y-%m-%d")
-    end_date=st.date_input("Select a end date",value=default_end_date)
-    end_date_str = datetime.datetime.strftime(end_date, "%Y-%m-%d")
-    metrics=st.text_input("What are you interested in?", value='SP500')
-
-    #  Fetch data
-    df = pdr.DataReader(metrics, data_source, start_date_str,end_date_str)
-    
-    def plot():
-        y_index=df.columns[0]
-        fig = px.line(df, x=df.index, y=y_index)
-        fig.update_layout(
-        title=y_index,
-        xaxis_title="Date",
-        yaxis_title="Value"
-        )
-        return fig
-    
-    
-    st.title("US Economic Dashboard")
-    st.plotly_chart(plot())
+    fred=FredData()
+    df=fred.get_data()
+    print(df.head())
