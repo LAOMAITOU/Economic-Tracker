@@ -1,29 +1,16 @@
 from dash import Dash, html, dcc
+import dash_bootstrap_components as dbc
 import plotly.express as px
-import pandas as pd
+import pandas as px
+from fred_data import FredData
 
-app = Dash(__name__)
+app = Dash(
+    external_stylesheets=[dbc.themes.FLATLY]
+)
 
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
+app.layout = dbc.Alert(
+    "Hello, Bootstrap!", className="m-5"
+)
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-
-app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
-
-    html.Div(children='''
-        Dash: A web application framework for your data.
-    '''),
-
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    )
-])
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
+if __name__ == "__main__":
+    app.run_server()
