@@ -19,13 +19,33 @@ class FredData:
         self.end_date = end_date
         self.data=pd.DataFrame()
     
-    def get_data(self):
+    def get_data_and_plot(self):
         self.data=web.DataReader(self.series_id,self.data_source,self.start_date,self.end_date).reset_index().dropna()
         self.data=self.data.rename(columns={"DATE":'Date',self.series_id:"Value"})
-    
-    def plot_data(self):
-        fig = px.line(self.data,x='Date',y='Value',title=self.series_id)
-        fig.show()
+        fig = px.line(self.data,x='Date',y='Value',
+                      title={
+                          'text': self.series_id,
+                          'font': {'family': "Goudy Old Style",'size':20,'color':'#EEEEEE'},
+                          'x': 0.02,
+                          'y': 0.95,
+                          'xanchor': 'left',
+                          'yanchor': 'top',
+                          'pad': {'l': 0}
+        })
+        
+        fig.update_layout(
+            xaxis=dict(tickfont=dict(color='#EEEEEE')),
+            yaxis=dict(tickfont=dict(color='#EEEEEE')),
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            title=None
+        )
+        
+        fig.update_traces(line=dict(color='#CF0A0A'))
+        
+        fig.update_xaxes(title='', showticklabels=True)
+        fig.update_yaxes(title='', showticklabels=True)
+        return fig
         
 if __name__ == '__main__':
     fred=FredData(start_date='2020-01-01')
