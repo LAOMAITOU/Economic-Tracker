@@ -12,33 +12,26 @@ default_start_date=default_end_date - datetime.timedelta(days=365*10)
 
 
 class FredData:
-    def __init__(self, data_source='fred',series_id='SP500',start_date=default_start_date,end_date=default_end_date):
+    def __init__(self, name='S&P500',data_source='fred',series_id='SP500',start_date=default_start_date,end_date=default_end_date):
         self.data_source = data_source
         self.series_id = series_id
         self.start_date = start_date
         self.end_date = end_date
+        self.name= name
         self.data=pd.DataFrame()
     
     def get_data_and_plot(self):
         self.data=web.DataReader(self.series_id,self.data_source,self.start_date,self.end_date).reset_index().dropna()
         self.data=self.data.rename(columns={"DATE":'Date',self.series_id:"Value"})
-        fig = px.line(self.data,x='Date',y='Value',
-                      title={
-                          'text': self.series_id,
-                          'font': {'family': "Goudy Old Style",'size':20,'color':'#EEEEEE'},
-                          'x': 0.02,
-                          'y': 0.95,
-                          'xanchor': 'left',
-                          'yanchor': 'top',
-                          'pad': {'l': 0}
-        })
+        fig = px.line(self.data,x='Date',y='Value')
         
         fig.update_layout(
-            xaxis=dict(tickfont=dict(color='#EEEEEE')),
-            yaxis=dict(tickfont=dict(color='#EEEEEE')),
+            xaxis=dict(tickfont=dict(family='Goudy Old Style',color='#EEEEEE',size=14), tickformat='%Y-%m-%d',showgrid=False),
+            yaxis=dict(tickfont=dict(family='Goudy Old Style',color='#EEEEEE',size=14),showgrid=False),
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            title=None
+            title=None,
+            margin=dict(l=0, r=0, t=0, b=0, pad=0)
         )
         
         fig.update_traces(line=dict(color='#CF0A0A'))
