@@ -27,7 +27,7 @@ class FredData:
         fig = px.line(self.data,x='Date',y='Value')
         
         fig.update_layout(
-            xaxis=dict(tickfont=dict(family='Goudy Old Style',color='#EEEEEE',size=14), tickformat='%Y-%m-%d',showgrid=False),
+            xaxis=dict(tickfont=dict(family='Goudy Old Style',color='#EEEEEE',size=14), tickformat='%Y-%m',showgrid=False),
             yaxis=dict(tickfont=dict(family='Goudy Old Style',color='#EEEEEE',size=14),showgrid=False),
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
