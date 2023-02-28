@@ -16,7 +16,7 @@ def market_tab():
                                 dcc.Interval(id='interval-component',
                                              interval=10*1000, n_intervals=0)
                             ]
-                        )
+                        ), width=4
                     ),
                     dbc.Col(
                         html.Div(
@@ -26,7 +26,7 @@ def market_tab():
                                 dcc.Interval(id='interval-component',
                                              interval=10*1000, n_intervals=0)
                             ]
-                        )
+                        ), width=4
                     ),
                     dbc.Col(
                         html.Div(
@@ -36,7 +36,7 @@ def market_tab():
                                 dcc.Interval(id='interval-component',
                                              interval=10*1000, n_intervals=0)
                             ]
-                        )
+                        ), width=4
                     )
                   ]
               ) 
