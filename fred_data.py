@@ -6,7 +6,7 @@ import plotly.express as px
 
 data_source='fred'
 default_end_date=date.today()
-default_start_date=default_end_date - datetime.timedelta(days=365*5)
+default_start_date=default_end_date - datetime.timedelta(days=365*1)
 # default_start_date_str=datetime.datetime.strftime(default_start_date,"%Y-%m-%d")
 # default_end_date_str=datetime.datetime.strftime(default_end_date,"%Y-%m-%d")
 
@@ -43,7 +43,7 @@ class FredData:
         
 if __name__ == '__main__':
     fred=FredData()
-    fred.get_data(name='S&P500',series_id='SP500',start_date='2020-01-01')
+    fred.get_data(name='NASDAQ',series_id='NASDAQCOM',start_date='2020-01-01')
     f=fred.plot_data()
     f.show()
     
